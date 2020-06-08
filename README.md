@@ -4,10 +4,10 @@ The files in this repository were used to configure the network depicted below.
 
 ![Network Diagram](/Resources/Images/ELK_Stack_Network_Diagram.png?raw=true)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the Elk_Stack_Setup.yml file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [ELK_Stack_Setup.yml](/Resources/Scripts/ELK_Stack_Setup.yml ':include :type=code') file may be used to install only certain pieces of it, such as Filebeat.
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -20,7 +20,6 @@ This document contains the following details:
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
 Load balancing ensures that the application will be highly responsive, in addition to restricting downtime of the network.
-- The distribution of traffic helps prevent possible distributed denial-of-service (DDoS) attacks. Using a Jump Box allows for a unified space to distribute necessary software to the network, while maintaining a single point of access for security purposes.
 
 Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the log files and system metrics.
 
@@ -38,7 +37,7 @@ The configuration details of each machine may be found below.
 The machines on the internal network are not exposed to the public Internet. 
 
 Only the Jump Box machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- 76.176.158.223
+- HomePublicIP
 
 Machines within the network can only be accessed by the Jump Box (10.0.0.5).
 
@@ -46,8 +45,8 @@ A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses |
 |----------|---------------------|----------------------|
-| Jump Box | No                  | 76.176.158.223       |
-| ELK VM   | No                  | 76.176.158.223       |
+| Jump Box | No                  | HomePublicIP         |
+| ELK VM   | No                  | HomePublicIP         |
 | DVWA-VM1 | No                  | 10.0.0.5             |
 | DVWA-VM2 | No                  | 10.0.0.5             |
 
@@ -67,8 +66,10 @@ The following screenshot displays the result of running `docker ps` after succes
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-| DVWA-VM1 | 10.0.0.8 |
-| DVWA-VM2 | 10.0.0.9 |
+| Name     | IP Address |
+|----------|------------|
+| DVWA-VM1 | 10.0.0.8   |
+| DVWA-VM2 | 10.0.0.9   |
 
 We have installed the following Beats on these machines:
 - Filebeat
@@ -82,10 +83,10 @@ These Beats allow us to collect the following information from each machine:
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the ELK_Stack_Setup.yml file to "/etc/ansible/".
-- Copy the Metricbeat_Configuration.yml file to "/etc/ansible/".
+- Copy the [ELK_Stack_Setup.yml](/Resources/Scripts/ELK_Stack_Setup.yml ':include :type=code') file to "/etc/ansible/".
+- Copy the [Metricbeat_Configuration.yml](/Resources/Scripts/Metricbeat_Configuration.yml ':include :type=code') file to "/etc/ansible/".
   - Change "10.0.0.6" on line 46 & 70 to the internal IP of your ELK server.
-- Copy the Filebeat_Configuration.yml file to "/etc/ansible/".
+- Copy the [Filebeat_Configuration.yml](/Resources/Scripts/Filebeat_Configuration.yml ':include :type=code') file to "/etc/ansible/".
   - Change "10.0.0.6" on line 1105 & 1804 to the internal IP of your ELK server.
 - Update the "/etc/ansible/hosts" file to include the internal IPs of your "Webservers" and your "Elkserver".
 - Run the playbook, and navigate to "PublicIPofELKServer:5601" to check that the installation worked as expected.
@@ -101,6 +102,6 @@ SSH into the control node and follow the steps below:
   - ssh username@ELKServer
     -exit
   - cd /etc/ansible
-  - ansible-playbook ELK_Stack_Setup.yml
+  - ansible-playbook [ELK_Stack_Setup.yml](/Resources/Scripts/ELK_Stack_Setup.yml ':include :type=code')
 
 After completing all of these commands aswell as the instructions from "Using the Playbook" you should have a fully functional ELK Stack.
